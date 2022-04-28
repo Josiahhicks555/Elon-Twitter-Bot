@@ -7,21 +7,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using TweetSharp;
+using Tweetinvi;
+using Tweetinvi.Models;
 
 
 namespace Elon_Twitter_Bot
 {
     class Program
     {
-        private static string customer_key = "HoVtjKiMSzposqo1JvxLKUzo2";
-        private static string customer_key_secret = "Z4j6LLac95a7VgX4zJLos3JhFSfjQlycru6A75qfVVTnSs0jUY";
-        private static string access_token = "1505890102773534728-g7SfKuXFrvY7Qv477tpv95Km1KjMT8";
-        private static string access_token_secret = "paoRsO9X08LCaRGRY3BP3oANnQssOyrlOhcdRXK2CymW3";
+        
+        private static string customer_key = ("HoVtjKiMSzposqo1JvxLKUzo2");
+        private static string customer_key_secret = ("Z4j6LLac95a7VgX4zJLos3JhFSfjQlycru6A75qfVVTnSs0jUY");
+        private static string access_token = ("1505890102773534728-g7SfKuXFrvY7Qv477tpv95Km1KjMT8");
+        private static string access_token_secret = ("paoRsO9X08LCaRGRY3BP3oANnQssOyrlOhcdRXK2CymW3");
+        //end
+        
 
         private static TwitterService service = new TwitterService(customer_key, customer_key_secret, access_token, access_token_secret);
 
         private static int currentImageID = 0;
-        private static List<string> imageList = new List<string> { $"../../Elon.jpg" };
+        private static List<string> imageList = new List<string> { $"../../foUrqiEw_400x400.jpg" };
         //C:/Users/Elon/Pictures/Twitter/Elon.jpg
 
         static void Main(string[] args)
@@ -50,15 +55,18 @@ namespace Elon_Twitter_Bot
                             
             });
         }
-
-        private static void SendMediaTweet(string _status, int imageID)
+      
+            private static void SendMediaTweet(string _status, int imageID)
         {
             using (var stream = new FileStream(imageList[imageID], FileMode.OpenOrCreate))
             {
+                StreamReader reader = new StreamReader(stream);
+                reader.ReadToEnd().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                Stream read = reader.BaseStream;
                 service.SendTweetWithMedia(new SendTweetWithMediaOptions
                 {
                     Status = _status,
-                    Images = new Dictionary<string, Stream> { { imageList[imageID], stream } }
+                    Images = new Dictionary<string, Stream> { { imageList[imageID], read } }
                 });
 
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -76,6 +84,7 @@ namespace Elon_Twitter_Bot
                 {
                     currentImageID++;
                 }
+
             }
         }
 
