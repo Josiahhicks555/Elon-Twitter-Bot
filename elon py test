@@ -1,0 +1,22 @@
+import tweepy as tp
+
+api_key = '07N1W3VY9h4GEBeeBl28oKhaU'
+api_secret = 'agHe6LLb7JixNN8x0z2wOgFeBw01bH09OpK3VCqGP7ZJO224Gc'
+access_token = '1505890102773534728-UumceIfeNwA3H7lxR5dA5XR7PxfpBC'
+access_secret = 'xn3home91prr4zbgtqOGfyxR0d4oPj3YiNmzB8xliJEDA'
+
+auth = tp.OAuthHandler(api_key, api_secret)
+auth.set_access_token(access_token, access_secret)
+api = tp.API(auth)
+
+
+try:
+    api.verify_credentials()
+    print('Successful Authentication')
+except:
+    print('Failed authentication')
+
+api.create_friendship('elonmusk')
+
+#api.update_status("This is a test", wait_on_rate_limit=True) 
+#api.update_profile()
